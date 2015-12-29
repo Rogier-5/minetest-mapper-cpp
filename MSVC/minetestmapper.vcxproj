@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\LevelDB.1.16.0.5\build\native\LevelDB.props" Condition="Exists('..\packages\LevelDB.1.16.0.5\build\native\LevelDB.props')" />
+  <Import Project="..\packages\Snappy.1.1.1.7\build\native\Snappy.props" Condition="Exists('..\packages\Snappy.1.1.1.7\build\native\Snappy.props')" />
+  <Import Project="..\packages\Crc32C.1.0.4\build\native\Crc32C.props" Condition="Exists('..\packages\Crc32C.1.0.4\build\native\Crc32C.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -170,8 +173,16 @@
     <ClCompile Include="..\TileGenerator.cpp" />
     <ClCompile Include="..\ZlibDecompressor.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\zlib.v120.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\zlib.v120.windesktop.msvcstl.dyn.rt-dyn.targets" Condition="Exists('..\packages\zlib.v120.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\zlib.v120.windesktop.msvcstl.dyn.rt-dyn.targets')" />
+    <Import Project="..\packages\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.targets" Condition="Exists('..\packages\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.targets')" />
+    <Import Project="..\packages\sqlite.redist.3.8.4.2\build\native\sqlite.redist.targets" Condition="Exists('..\packages\sqlite.redist.3.8.4.2\build\native\sqlite.redist.targets')" />
+    <Import Project="..\packages\sqlite.3.8.4.2\build\native\sqlite.targets" Condition="Exists('..\packages\sqlite.3.8.4.2\build\native\sqlite.targets')" />
+    <Import Project="..\packages\libpng.redist.1.6.20.1\build\native\libpng.redist.targets" Condition="Exists('..\packages\libpng.redist.1.6.20.1\build\native\libpng.redist.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
