@@ -17,8 +17,8 @@
 #include <cstring>
 #include <stdexcept>
 #include <fcntl.h>
-#include <unistd.h>
 #include <sys/types.h>
+#include "porting.h"
 #include "TileGenerator.h"
 #include "PixelAttributes.h"
 #include "util.h"
