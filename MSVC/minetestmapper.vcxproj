@@ -158,6 +158,7 @@
     <ClInclude Include="..\minetest-database.h" />
     <ClInclude Include="..\PixelAttributes.h" />
     <ClInclude Include="..\PlayerAttributes.h" />
+    <ClInclude Include="..\porting.h" />
     <ClInclude Include="..\TileGenerator.h" />
     <ClInclude Include="..\types.h" />
     <ClInclude Include="..\ZlibDecompressor.h" />
