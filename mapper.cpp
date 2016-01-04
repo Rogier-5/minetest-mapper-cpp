@@ -200,9 +200,8 @@ void parseDataFile(TileGenerator &generator, const string &input, string dataFil
 	// Check if input/../.. looks like a valid minetest directory
 	string minetestPath = input + PATH_SEPARATOR + ".." + PATH_SEPARATOR + "..";
 	string minetestConf = minetestPath + PATH_SEPARATOR + "minetest.conf";
-	int fd;
-	if (0 <= (fd = open(minetestConf.c_str(), O_RDONLY))) {
-		close(fd);
+	if (FILE *file = fopen(minetestConf.c_str(), "r")) {		
+		fclose(file);
 		colorPaths.push_back(minetestPath);
 	}
 	char *homedir;
