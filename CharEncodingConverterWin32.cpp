@@ -10,8 +10,15 @@
 #include <vector>
 #include "util.h"
 
+#ifdef _WIN32
 #include <Windows.h>
 #include <Stringapiset.h>
+#else
+// Test-compile this on linux. This shouldn't happen under regular circumstances.
+#warning Compiling CharEncodingConverterWin32.cpp on non-Windows platform. This shouldn't happen
+#include <LWindows.h>
+#endif
+
 
 std::string CharEncodingConverterWin32::getCurrentCharEncoding(void)
 {

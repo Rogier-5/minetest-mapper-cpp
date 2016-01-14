@@ -263,6 +263,8 @@ include_directories(
 	${ICONV_INCLUDE_DIR}
 )
 
+# Add the WIN32 CharEncodingConverter implementation as well, so that it
+# gets compile-testing. It won't be used. Eventually, it should be removed again
 set(mapper_SRCS
 	PixelAttributes.cpp
 	PlayerAttributes.cpp
@@ -273,6 +275,7 @@ set(mapper_SRCS
 	BlockPos.cpp
 	mapper.cpp
 	CharEncodingConverter.cpp
+	CharEncodingConverterWin32.cpp
 	${MAPPER_SRCS_ICONV}
 )
 
