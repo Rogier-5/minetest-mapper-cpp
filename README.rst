@@ -1,6 +1,11 @@
 Minetest Mapper
 ###############
 
+.. WARNING::
+This is a temporary branch. Commits may be randomly split, squashed or mangled
+in every conceivable way, and history may be rewritten wantonly. Stuff from this
+this branch might even end up being committed to the master branch :-)
+
 A tool to generate maps of minetest and freeminer worlds.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
