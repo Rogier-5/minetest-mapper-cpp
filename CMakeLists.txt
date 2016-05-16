@@ -13,13 +13,9 @@ endif(WIN32)
 
 # Obtain stored major version number
 # Make sure cmake is rerun when version has changed
-configure_file(version version.dup COPYONLY)
-file(REMOVE version.dup)
-if(EXISTS "${CMAKE_HOME_DIRECTORY}/version")
-	file(STRINGS "${CMAKE_HOME_DIRECTORY}/version" VERSION_FROM_FILE)
-else(EXISTS "${CMAKE_HOME_DIRECTORY}/version")
-	message(FATAL_ERROR "File '${CMAKE_HOME_DIRECTORY}/version' not found or not readable")
-endif(EXISTS "${CMAKE_HOME_DIRECTORY}/version")
+configure_file(base-version base-version.dup COPYONLY)
+file(REMOVE base-version.dup)
+file(STRINGS "${CMAKE_HOME_DIRECTORY}/base-version" VERSION_FROM_FILE)
 
 execute_process(COMMAND git describe --long "--match=[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]" --dirty=-WIP --abbrev=8
 		RESULT_VARIABLE VERSION_EXIT OUTPUT_VARIABLE GIT_VERSION ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
