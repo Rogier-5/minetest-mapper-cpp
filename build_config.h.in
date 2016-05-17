@@ -1,4 +1,7 @@
-// Filled in by the build system
+// The file 'build_config.h' is auto-generated. Any changes to it
+// will be overwritten.
+//
+// Modify the file build_config.h.in instead.
 
 #ifndef BUILD_CONFIG_H
 #define BUILD_CONFIG_H
