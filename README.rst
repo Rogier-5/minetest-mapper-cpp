@@ -1,3 +1,16 @@
+WARNING: This version is a work in progress.
+############################################
+
+.. WARNING::
+    **This version is a work in progress. It may or may not work**
+    **as intended, or it may not compile or work at all.**
+
+    **It is *not* ready for general use.**
+
+    **The code will probably be modified before being released.**
+    **The git history may also be randomly edited and/or reordered.**
+    **Some functionality may even be eliminated altogether.**
+
 Minetest Mapper
 ###############
 
