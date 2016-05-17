@@ -23,6 +23,7 @@ Major Features
 Build Features
 ==============
 * Supports both the gcc and clang compiler suites
+* Supports MSVC building on Windows
 * Build rpm, deb and/or tar.gz installation
   packages. Or simply type 'make install'.
 

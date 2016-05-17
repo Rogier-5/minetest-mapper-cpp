@@ -39,6 +39,7 @@ Map Generation Features
 Build Features
 --------------
 * Supports both the gcc and clang compiler suites
+* Supports MSVC building on Windows
 * Build rpm, deb and/or tar.gz installation
   packages. Or simply type 'make install'.
 
@@ -50,6 +51,9 @@ Windows
 
 Check the download page to obtain a compiled version:
 `<https://github.com/Rogier-5/minetest-mapper-cpp/wiki/Downloads>`_
+
+Or check the building instructions for compiling using MSVC:
+`<doc/build-instructions.rst>`_.
 
 Install Dependencies
 --------------------

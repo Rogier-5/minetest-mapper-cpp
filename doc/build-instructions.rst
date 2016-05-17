@@ -8,9 +8,9 @@ Not all platforms receive the same amount of testing:
 
 * Gcc and clang builds on Linux are frequently tested.
 * The BSD family should also give little trouble. It is not tested that I know of.
-* Windows building using MinGW is also regularly tested and should work.
-* MSVC on Windows has not been tested recently.
-* Building on OSX has not been tested recently.
+* MSVC on Windows is tested.
+* Windows building using MinGW is tested intermittently and should work.
+* Building on OSX has not been tested recently and may not work.
 
 Please let me know how you fared on your platform (when you encounter problems,
 but also when you're successful - so I can update this text with the latest
@@ -34,12 +34,15 @@ Libraries
 At least one of ``sqlite3``, ``postgresql``, ``leveldb`` and ``hiredis`` is required.
 Check the minetest worlds that will be mapped to know which ones should be included.
 
+Not all database backend libraries may be obtainable for all platforms (in particular
+for Windows).
+
 Build Environment
 -----------------
 
-* C++ compiler suite (clang or gcc (including mingw); msvc has not recently been tested)
-* cmake
-* make
+* C++ compiler suite (clang or gcc (including mingw); msvc on Windows)
+* cmake (not for msvc)
+* make (not for msvc)
 
 Documentation
 -------------
@@ -135,12 +138,24 @@ Linux Mint
 ----------
 See `Debian and Derivatives`_
 
-Windows
--------
+Windows (MinGW)
+---------------
 
 You're probably in for a lot of work, downloading software, and
 probably compiling at least some of the direct and indirect dependencies.
 At the moment, regrettably, detailed instructions are not available.
+
+Windows (MSVC)
+--------------
+
+The following must be installed to successfully compile minetestmapper using MSVC:
+
+* Visual Studio 2015 or 2013 (lower may not work). You can get VS Community here: https://www.visualstudio.com/
+* A precompiled libary of gd.
+
+  Which must have been compiled with the same version of zlib that is used for minetestmapper.
+  Verify this by building minetestmapper (see next chapter), and checking which version
+  of zlib was used, and whether it matches the version that was used for libgd.
 
 Other
 -----
@@ -177,10 +192,36 @@ Create native installation package(s):
 
 See `CMake Variables`_ for more CMake options.
 
-Windows
--------
+Windows (MinGW)
+---------------
 
-Unfortunately, at the moment no instructions for Windows building are available.
+Unfortunately, at the moment no instructions are available for Windows building using MinGW.
+
+Windows (MSVC)
+--------------
+
+Setting up the IDE
+..................
+
+1. Open the minetestmapper.sln or MSVC\\mintestmapper.vcxproj with Visual Studio.
+2. Configure the gd libary:
+        1. Open projectsettings `ALT+F7`.
+        2. Select `All Configurations` and `All Platforms`.
+        3. Click `C/C++` -> `additional include directories` and enter the path to the include directory of libGD.
+        4. Click `Apply`
+        5. Select a configuration (``Debug|Release``) and a platform (``x86|x64``)
+        6. Click `Linker` --> `additional libary directories` Enter the path to libgd that fits to your configuration and platform.
+
+	   Do this step for all configurations and platforms you want to use.
+
+           WARNING: You will get a linker error if you select one that does not fit to your configuration and platform.
+
+Debugging Minetestmapper
+........................
+
+1. In projectsettings (`ALT+F7`) click `Debugging`.
+2. Specify the Arguments in `Command arguments`.
+3. Every time you launch the debugger, minetstmapper will be executed with those arguments.
 
 OSX
 ---
