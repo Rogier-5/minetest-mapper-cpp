@@ -7,6 +7,8 @@
  * =====================================================================
  */
 
+#include "build_config.h"
+
 #if MSDOS || __OS2__ || __NT__ || _WIN32
 #define PATH_SEPARATOR '\\'
 #else
@@ -20,14 +22,6 @@
 
 // Max number of node name -> color mappings stored in a mapblock
 #define MAPBLOCK_MAXCOLORS	65536
-
-#ifdef USE_CMAKE_CONFIG_H
-#include "cmake_config.h"
-#else
-#define USE_SQLITE3 1
-#define USE_LEVELDB 0
-#define USE_REDIS 0
-#endif
 
 // List of possible database names (for usage message)
 #if USE_SQLITE3

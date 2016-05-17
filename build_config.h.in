@@ -1,7 +1,7 @@
 // Filled in by the build system
 
-#ifndef CMAKE_CONFIG_H
-#define CMAKE_CONFIG_H
+#ifndef BUILD_CONFIG_H
+#define BUILD_CONFIG_H
 
 #define USE_SQLITE3 @USE_SQLITE3@
 #define USE_POSTGRESQL @USE_POSTGRESQL@

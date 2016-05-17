@@ -521,8 +521,7 @@ include(CPack)
 # DO this near the end - to make sure all variables have been computed
 # and are final.
 configure_file(
-	"${PROJECT_SOURCE_DIR}/cmake_config.h.in"
-	"${PROJECT_BINARY_DIR}/cmake_config.h"
+	"${PROJECT_SOURCE_DIR}/build_config.h.in"
+	"${PROJECT_BINARY_DIR}/build_config.h"
 )
-add_definitions ( -DUSE_CMAKE_CONFIG_H )
 

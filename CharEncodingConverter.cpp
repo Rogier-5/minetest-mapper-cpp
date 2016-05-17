@@ -1,6 +1,6 @@
 
 #include <iostream>
-#include "cmake_config.h"
+#include "build_config.h"
 
 #include "CharEncodingConverter.h"
 #ifdef _WIN32
