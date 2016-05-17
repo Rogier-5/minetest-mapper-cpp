@@ -119,7 +119,7 @@
       <AdditionalDependencies>libgd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>CALL $(SolutionDir)MSVC\GIT-VS-VERSION-GEN.bat "$(SolutionDir)MSVC" "$(SolutionDir)MSVC\versioninfo.h"</Command>
+      <Command>CALL $(SolutionDir)MSVC\gen-build-config.bat --use-sqlite3 --use-leveldb "$(SolutionDir)"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -141,7 +141,7 @@
       <AdditionalDependencies>libgd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>CALL $(SolutionDir)MSVC\GIT-VS-VERSION-GEN.bat "$(SolutionDir)MSVC" "$(SolutionDir)MSVC\versioninfo.h"</Command>
+      <Command>CALL $(SolutionDir)MSVC\gen-build-config.bat --use-sqlite3 --use-leveldb "$(SolutionDir)"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

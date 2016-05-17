@@ -44,29 +44,25 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION GEN_VER_DIGITAL_VERSION
- PRODUCTVERSION GEN_VER_DIGITAL_VERSION
+ FILEVERSION MINETESTMAPPER_VERSION_BINARY
+ PRODUCTVERSION MINETESTMAPPER_VERSION_BINARY
  FILEFLAGSMASK 0x3fL
-#ifdef _DEBUG
- FILEFLAGS 0x1L
-#else
- FILEFLAGS 0x0L
-#endif
- FILEOS 0x40004L
- FILETYPE 0x1L
- FILESUBTYPE 0x0L
+ FILEFLAGS (0 MINETESTMAPPER_DEBUG_FLAG MINETESTMAPPER_WIP_FLAG)
+ FILEOS VOS-NT-WINDOWS32
+ FILETYPE VFT_APP
+ FILESUBTYPE VFT2_UNKNOWN
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "FileDescription", "Generates maps of minetest and freeminer worlds "
-            VALUE "FileVersion", GEN_VER_VERSION_STRING
+            VALUE "FileVersion", MINETESTMAPPER_VERSION_FULL
             VALUE "InternalName", "minetestmapper.exe"
             VALUE "LegalCopyright", "LGPLv2.1+/ BSD 2-clause license"
             VALUE "OriginalFilename", "minetestmapper.exe"
             VALUE "ProductName", "Minetestmapper"
-            VALUE "ProductVersion", GEN_VER_VERSION_STRING
+            VALUE "ProductVersion", MINETESTMAPPER_VERSION_FULL
         END
     END
     BLOCK "VarFileInfo"
