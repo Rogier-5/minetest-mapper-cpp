@@ -168,6 +168,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\BlockPos.h" />
+    <ClInclude Include="..\CharEncodingConverter.h" />
     <ClInclude Include="..\Color.h" />
     <ClInclude Include="..\config.h" />
     <ClInclude Include="..\db-leveldb.h" />
@@ -177,6 +178,7 @@
     <ClInclude Include="..\PixelAttributes.h" />
     <ClInclude Include="..\PlayerAttributes.h" />
     <ClInclude Include="..\porting.h" />
+    <ClInclude Include="..\Settings.h" />
     <ClInclude Include="..\TileGenerator.h" />
     <ClInclude Include="..\types.h" />
     <ClInclude Include="..\ZlibDecompressor.h" />
@@ -187,12 +189,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\BlockPos.cpp" />
+    <ClCompile Include="..\CharEncodingConverter.cpp" />
     <ClCompile Include="..\Color.cpp" />
     <ClCompile Include="..\db-leveldb.cpp" />
     <ClCompile Include="..\db-sqlite3.cpp" />
     <ClCompile Include="..\mapper.cpp" />
     <ClCompile Include="..\PixelAttributes.cpp" />
     <ClCompile Include="..\PlayerAttributes.cpp" />
+    <ClCompile Include="..\Settings.cpp" />
     <ClCompile Include="..\TileGenerator.cpp" />
     <ClCompile Include="..\ZlibDecompressor.cpp" />
     <ClCompile Include="wingetopt\src\getopt.c" />

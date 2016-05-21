@@ -60,6 +60,12 @@
     <ClInclude Include="resource.h">
       <Filter>Header files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Settings.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CharEncodingConverter.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="minetestmapper.rc">
@@ -104,6 +110,12 @@
       <Filter>Source files</Filter>
     </ClCompile>
     <ClCompile Include="wingetopt\src\getopt.c">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Settings.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CharEncodingConverter.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
   </ItemGroup>

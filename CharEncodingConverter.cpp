@@ -4,7 +4,7 @@
 
 #include "CharEncodingConverter.h"
 #ifdef _WIN32
-#warning No standard charset converter defined for WIN32 - disabling conversion
+#pragma message ("No standard charset converter defined for WIN32 - disabling conversion")
 #else
 #include "CharEncodingConverterIConv.h"
 #endif
