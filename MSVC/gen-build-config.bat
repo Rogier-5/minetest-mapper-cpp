@@ -22,21 +22,19 @@ GOTO START
 
 
 :USAGE
-ECHO Usage: %~nx0 [options] [PROJECTDIR]
+ECHO Usage: %~nx0 [options] -p PROJECTDIR
 ECHO.
 ECHO Options:
 ECHO	-h^|--help		: Print this message
 ECHO	-v^|--verbose		: Print minetestmapper version info
-ECHO	--test			: Print the file contents to the console
+ECHO	--test			: Instead of creating the configuration files,
+ECHO				  print their would-be contents to the console.
 ECHO	--use-sqlite3		: Make minetestmapper understand SQLite3
 ECHO	--use-postgresql	: Make minetestmapper understand PostgreSQL
 ECHO	--use-leveldb		: Make minetestmapper understand LevelDB
 ECHO	--use-redis		: Make minetestmapper understand Redis
-ECHO.
-ECHO	PROJECTDIR		: Base directory of the project
-ECHO.
-ECHO When both filenames are omitted, the information is printed to
-ECHO the console.
+ECHO	-p PROJECTDIR		: Specify the base directory of the project
+ECHO				  (this option is mandatory)
 ECHO.
 ECHO NOTE: At least one of the databases must be enabled.
 EXIT /B 0
@@ -66,57 +64,57 @@ SET $TEST=0
 
 :: Command-line argument parsing
 :PARSEARGS
-	IF /I "%~1" =="-h" (
+	set OPT="%~1"
+	IF /I "%OPT%"=="-h" (
 		CALL :USAGE
 		EXIT /B 0
-	)
-	IF /I "%~1" =="--help" (
+	) ELSE IF /I "%OPT%"=="--help" (
 		CALL :USAGE
 		EXIT /B 0
-	)
-	IF /I "%~1" =="-v" (
+	) ELSE IF /I "%OPT%"=="-v" (
 		SET $VERBOSE=1
-	)
-	IF /I "%~1" =="--verbose" (
+	) ELSE IF /I "%OPT%"=="--verbose" (
 		SET $VERBOSE=1
-	)
-	IF /I "%~1" =="--test" (
+	) ELSE IF /I "%OPT%"=="--test" (
 		SET $TEST=1
-	)
-	IF /I "%~1" =="--use-sqlite3" (
+	) ELSE IF /I "%OPT%"=="--use-sqlite3" (
 		SET $USE_SQLITE3=1
 		SET $USE_ANY=1
-	)
-	IF /I "%~1" =="--use-postgresql" (
+	) ELSE IF /I "%OPT%"=="--use-postgresql" (
 		SET $USE_POSTGRESQL=1
 		SET $USE_ANY=1
-	)
-	IF /I "%~1" =="--use-leveldb" (
+	) ELSE IF /I "%OPT%"=="--use-leveldb" (
 		SET $USE_LEVELDB=1
 		SET $USE_ANY=1
-	)
-	IF /I "%~1" =="--use-redis" (
+	) ELSE IF /I "%OPT%"=="--use-redis" (
 		SET $USE_REDIS=1
 		SET $USE_ANY=1
-	)
-	IF /I "%~1" =="-p" (
+	) ELSE IF /I "%OPT%"=="-p" (
 		SET $PROJECTDIR=%~f2
-		:: SHIFT twice, because we took 2 arguments here.
+		:: SHIFT because we took a second argument here.
 		SHIFT
-	)
-	IF /I "%~1" =="" (
+	) ELSE IF /I "%OPT:~0,1%"=="-" (
+		ECHO %$MYNAME%: Error: unrecognised option: %OPT%
+		CALL :USAGE
+		EXIT /B 1
+	) ELSE (
 		GOTO GEN_CONFIG
 	)
 	SHIFT
 	GOTO PARSEARGS
 
 :GEN_CONFIG
-IF NOT %$USE_ANY% ==1 (
+IF NOT "%1"=="" (
+	ECHO %$MYNAME%: Error: too many arguments (%*)
+	CALL :USAGE
+	EXIT /B 1
+)
+IF NOT %$USE_ANY%==1 (
 	ECHO %$MYNAME%: Error: at least one --use-^<database^> option must be given
 	CALL :USAGE
 	EXIT /B 1
 )
-IF %$PROJECTDIR% =="" (
+IF "%$PROJECTDIR%"=="" (
 	ECHO %$MYNAME%: Error: PROJECTDIR argument is required
 	CALL :USAGE
 	EXIT /B 1
@@ -128,17 +126,24 @@ IF ERRORLEVEL 1 (
 ) ELSE (
 	CALL :GET_GIT_VERSION
 )
+IF ERRORLEVEL 1 EXIT /B %ERRORLEVEL%
+
 CALL :COMPUTE_BINARY_VERSION
+IF ERRORLEVEL 1 EXIT /B %ERRORLEVEL%
 
 IF %$VERBOSE%==1 (
 	CALL :REPORT_VERSION
 )
+
+set $EXITVAL=0
 CALL :WRITE_BUILDCONFIG
+IF ERRORLEVEL 1 SET $EXITVAL=%ERRORLEVEL%
 CALL :WRITE_VERSIONINFO
+IF ERRORLEVEL 1 SET $EXITVAL=%ERRORLEVEL%
 
 :: End of main script code.
 :: Remaining code consists of functions only
-EXIT /B %ERRORLEVEL%
+EXIT /B %$EXITVAL%
 
 :: Check for git. This does two things:
 :: - verify that git is installed
@@ -157,24 +162,28 @@ EXIT /B %ERRORLEVEL%
 		SET $VERSION_MAJOR=%%M
 	)
 	FOR /F "tokens=2 delims=-" %%M in ("%$VERSION_FULL%") DO (
-		SET $MINOR_VERSION_COMMITS=%%M
+		SET $VERSION_MINOR_COMMITS=%%M
 	)
 	FOR /F "tokens=3 delims=-" %%M in ("%$VERSION_FULL%") DO (
-		SET $MINOR_VERSION_SHA1=%%M
+		SET $VERSION_MINOR_SHA1=%%M
 	)
 	FOR /F "tokens=4 delims=-" %%M in ("%$VERSION_FULL%") DO (
-		SET $MINOR_VERSION_WIP=%%M
-	)	
-	SET $VERSION_MINOR=%$MINOR_VERSION_COMMITS%-%$MINOR_VERSION_SHA1%-%$MINOR_VERSION_WIP%
+		SET $VERSION_MINOR_WIP=%%M
+	)
+	IF DEFINED $VERSION_MINOR_WIP (
+		SET $VERSION_MINOR=%$VERSION_MINOR_COMMITS%-%$VERSION_MINOR_SHA1%-%$VERSION_MINOR_WIP%
+	) ELSE (
+		SET $VERSION_MINOR=%$VERSION_MINOR_COMMITS%-%$VERSION_MINOR_SHA1%
+	)
 
 	EXIT /B 0
 
 :: Obtain version information when git cannot be used
 :GET_NONGIT_VERSION
-ECHO Compute nongit version
+
 	IF NOT EXIST %$PROJECTDIR%\%$BASE_VERSION_FILE% (
 		ECHO %$MYNAME%^: Error^: base version file ^(%$PROJECTDIR%\%$BASE_VERSION_FILE%^) not found.
-		exit /B 1
+		EXIT /B 2
 	)
 	FOR /F "tokens=*" %%V IN (%$PROJECTDIR%\%$BASE_VERSION_FILE%) DO (
 		SET $VERSION_MAJOR=%%V
@@ -182,104 +191,79 @@ ECHO Compute nongit version
 	SET $VERSION_MINOR=-X
 	EXIT /B 0
 
-:: Compute digital version for MSVC
+:: Compute binary version for MSVC
 :COMPUTE_BINARY_VERSION
 	:: This assumes the version is of the form:
 	::	YYYYMMDD-nn-cccccccc[-WIP]
 	:: or:
 	::	YYYYMMDD-X
-	:: Digital version consists of 4 16-bit numbers.
+	:: Binary version consists of 4 16-bit numbers.
 	:: Conversion:
 	:: - 1st 16-bit number: 0
-	:: - 2st 16-bit number: YYMMDD	(usable until 2065)
+	:: - 2st 16-bit number: 1024*YY+32*MM+DD (usable until 2064)
 	:: - 3nd 16-bit number: 2 * nn (# commits since major version)
 	::   2 * nn + 1 if the working tree was dirty ('-WIP')
 	::   65535 if unknown ('X')
 	:: - 4rd 16-bit number: 1st 4 hex digits of cccccccc (commit SHA1)
-	IF /I "%$MINOR_VERSION_COMMITS%" =="X" (
-		SET /A $MIV3=65535
-	)
-	IF EXIST $MINOR_VERSION_WIP (
-		SET /A $MIV3=2*%$MINOR_VERSION_COMMITS%+1
+	SET /A $BV2=1024*%$VERSION_MAJOR:~2,2%+32*%$VERSION_MAJOR:~4,2%+%$VERSION_MAJOR:~6,2%
+	IF /I "%$VERSION_MINOR_COMMITS%"=="X" (
+		SET /A $BV3=65535
+	) ELSE IF EXIST $VERSION_MINOR_WIP (
+		SET /A $BV3=2*%$VERSION_MINOR_COMMITS%+1
 	) ELSE (
-		SET /A $MIV3=2*%$MINOR_VERSION_COMMITS%
+		SET /A $BV3=2*%$VERSION_MINOR_COMMITS%
 	)
-	IF /I "%$MINOR_VERSION_COMMITS%" =="X" (
-		SET /A $MIV4=0
+	IF /I "%$VERSION_MINOR_COMMITS%"=="X" (
+		SET /A $BV4=0
 	) ELSE (
-		SET /A $MIV4=0x%$MINOR_VERSION_SHA1:~1,4%
+		SET /A $BV4=0x%$VERSION_MINOR_SHA1:~1,4%
 	)
-	SET $VERSION_BINARY=0,%$MAJOR_VERSION:~2,6%,%$MIV3%,%$MIV4%
+	SET $VERSION_BINARY=0,%$BV2%,%$BV3%,%$BV4%
 	EXIT /B 0
 
 :: Report version info to the console
 :REPORT_VERSION
 	ECHO Minetestmapper version information^:
 	ECHO.
-	IF /I "%$MINOR_VERSION_COMMITS%" =="X" (
+	IF /I "%$VERSION_MINOR_COMMITS%"=="X" (
 		ECHO WARNING^: git executable not found, or no git tree found.
-		ECHO          No exact version information could be obtained.
+		ECHO           No exact version information could be obtained.
 		ECHO.
 	)
-	ECHO Full version^:                  %$FULL_VERSION%
-	ECHO Major version^:                  %$MAJOR_VERSION%
-	ECHO Minor version^:                  %$MINOR_VERSION%
+	ECHO Full version^:                     %$VERSION_FULL%
+	ECHO Major version^:                    %$VERSION_MAJOR%
+	ECHO Minor version^:                    %$VERSION_MINOR%
 	
-	IF /I NOT "%$MINOR_VERSION_COMMITS%"=="X" (
-		ECHO Commits since full version^:     %$MINOR_VERSION_COMMITS%
-		ECHO Latest commit SHA1 id ^(short^)  %$MINOR_VERSION_SHA1%
-		IF EXIST %$MINOR_VERSION_WIP% (
-			ECHO Working tree is clean          NO
+	IF /I NOT "%$VERSION_MINOR_COMMITS%"=="X" (
+		ECHO Commits since full version^:       %$VERSION_MINOR_COMMITS%
+		ECHO Latest commit SHA1 id ^(short^)^:  %$VERSION_MINOR_SHA1%
+		IF EXIST %$VERSION_MINOR_WIP% (
+			ECHO Working tree is clean^:          NO
 		) ELSE (
-			ECHO Working tree is clean          YES
+			ECHO Working tree is clean^:          YES
 		)
 	)
-	ECHO Digital version^:                %$BINARY_VERSION%
-	exit /B 0
+	ECHO Binary version^:                   %$VERSION_BINARY%
+	EXIT /B 0
 	
 :: Create the build file
 :WRITE_BUILDCONFIG
-	SET $INDENT=""
+	CALL SET "$INDENT="
 	IF NOT EXIST %$PROJECTDIR%\%$BUILDCONFIG_TEMPLATE% (
 		ECHO %$MYNAME%^: Error^: template file ^(%$PROJECTDIR%\%$BUILDCONFIG_TEMPLATE%^) not found.
-		exit /B 1
-	)
-	IF %$TEST%==1 (
-		ECHO The build file ^(build_config.h^) contents would be^:
-		SET $INDENT=    
+		EXIT /B 2
 	)
 	IF %$VERBOSE%==1 (
 		ECHO ---- Generating %$PROJECTDIR%\%$BUILDCONFIG_FILE%
 	)
-	ECHO // Generated^: %DATE% > %$PROJECTDIR%\%$BUILDCONFIG_FILE%
-	FOR /F "tokens=*" %%L in (%$PROJECTDIR%\%$BUILDCONFIG_TEMPLATE%) DO CALL :WRITE_LINE %%L
-	EXIT /B 0
-	:: Alternate code to generate the file from scratch
-	> %$BUILDCONFIG% (
-		ECHO %$INDENT%// The file 'build_config.h' is auto-generated. Any changes to it
-		ECHO %$INDENT%// will be overwritten.
-		ECHO %$INDENT%// Modify the following build-system specific file and script instead:
-		ECHO %$INDENT%//	build_config.h.in               (used by CMake)
-		ECHO %$INDENT%//	MSVC/generate_build_config.bat  (used by MSVC)
-		ECHO.
-		ECHO %$INDENT%#ifndef BUILD_CONFIG_H
-		ECHO %$INDENT%#define BUILD_CONFIG_H
-		ECHO.
-		ECHO %$INDENT%#define USE_SQLITE3 %$USE_SQLITE3%
-		ECHO %$INDENT%#define USE_POSTGRESQL %$USE_POSTGRESQL%
-		ECHO %$INDENT%#define USE_LEVELDB %$USE_LEVELDB%
-		ECHO %$INDENT%#define USE_REDIS %$USE_REDIS%
-		ECHO.
-		ECHO %$INDENT%#define USE_ICONV %$USE_ICONV%
-		ECHO.
-		ECHO %$INDENT%#define VERSION_MAJOR "%$VERSION_MAJOR%"
-		ECHO %$INDENT%#define VERSION_MINOR "%$VERSION_MINOR%"
-		ECHO.
-		ECHO %$INDENT%#define PACKAGING_FLAT %$PACKAGING_FLAT%
-		ECHO %$INDENT%#define INSTALL_PREFIX "%$INSTALL_PREFIX%"
-		ECHO.
-		ECHO %$INDENT%#endif
+	SET $OUTPUT=%$PROJECTDIR%\%$BUILDCONFIG_TEMPLATE%
+	IF %$TEST%==1 (
+		ECHO The build config file ^(%$BUILDCONFIG_FILE%^) contents would be^:
+		CALL SET "$INDENT=    "
+		SET $OUTPUT=CON
 	)
+	COPY NUL %$OUTPUT%
+	FOR /F "tokens=*" %%L in (%$PROJECTDIR%\%$BUILDCONFIG_TEMPLATE%) DO CALL :WRITE_LINE %%L
 	EXIT /B 0
 
 :: This funktion writes 1 line with the correct build parameter into the build_config.h file. 
@@ -288,6 +272,8 @@ ECHO Compute nongit version
 	SETLOCAL ENABLEDELAYEDEXPANSION
 	SET $LINE=%*
 	
+	SET $LINE=!$LINE:@BUILD_CONFIG_GENDATE@=%DATE% %TIME%!
+	SET $LINE=!$LINE:@BUILD_CONFIG_GENTOOL@=%$MYNAME%!
 	SET $LINE=!$LINE:@USE_SQLITE3@=%$USE_SQLITE3%!
 	SET $LINE=!$LINE:@USE_POSTGRESQL@=%$USE_POSTGRESQL%!
 	SET $LINE=!$LINE:@USE_LEVELDB@=%$USE_LEVELDB%!
@@ -296,26 +282,26 @@ ECHO Compute nongit version
 	SET $LINE=!$LINE:@VERSION_MAJOR@=%$VERSION_MAJOR%!
 	SET $LINE=!$LINE:@VERSION_MINOR@=%$VERSION_MINOR%!
 	SET $LINE=!$LINE:@PACKAGING_FLAT@=%$PACKAGING_FLAT%!
-	SET $LINE=!$LINE:@CMAKE_INSTALL_PREFIX@=%$INSTALL_PREFIX%!
+	SET $LINE=!$LINE:@INSTALL_PREFIX@=%$INSTALL_PREFIX%!
 	
-	ECHO %$LINE% >> %$PROJECTDIR%\%$BUILDCONFIG_FILE%
-	IF %$TEST%==1 (
-		ECHO %$INDENT% %$LINE%
-	)
+	ECHO %$INDENT%%$LINE% >> %$OUTPUT%
 	ENDLOCAL
 	EXIT /B 0
 	
 :: Create the versioninfo file
 :WRITE_VERSIONINFO
-	SET $INDENT=
-	IF %$TEST%==1 (
-		ECHO The versioninfo file ^(versioninfo.h^) contents would be^:
-		SET $INDENT=    
-	)
+	SETLOCAL
+	CALL SET "$INDENT="
 	IF %$VERBOSE%==1 (
 		ECHO ---- Generating %$PROJECTDIR%\%$VERSIONINFO_FILE%%
 	)
-	> %$PROJECTDIR%\%$VERSIONINFO_FILE% (
+	SET $OUTPUT=%$PROJECTDIR%\%$VERSIONINFO_FILE%
+	IF %$TEST%==1 (
+		ECHO The versioninfo file ^(%$VERSIONINFO_FILE%^) contents would be^:
+		CALL SET "$INDENT=    "
+		SET $OUTPUT=CON
+	)
+	> %$OUTPUT% (
 		ECHO %$INDENT%// This file is auto-generated. Any changes to it will be overwritten.
 		ECHO %$INDENT%// Modify the following build-system specific script instead:
 		ECHO %$INDENT%//	MSVC/generate_build_config.bat
@@ -324,7 +310,7 @@ ECHO Compute nongit version
 		ECHO %$INDENT%#define MINETESTMAPPER_VERSION_MAJOR "%$VERSION_MAJOR%"
 		ECHO %$INDENT%#define MINETESTMAPPER_VERSION_MINOR "%$VERSION_MINOR%"
 		ECHO %$INDENT%#define MINETESTMAPPER_VERSION_BINARY %$VERSION_BINARY%
-		IF EXIST %$MINOR_VERSION_WIP% (
+		IF EXIST %$VERSION_MINOR_WIP% (
 			ECHO %$INDENT%#define MINETESTMAPPER_WIP_FLAG ^| VS_FF_PATCHED
 		) ELSE (
 			:: Clear 'VS_FF_PATCHED' only if the WIP part is empty
@@ -337,4 +323,5 @@ ECHO Compute nongit version
 		ECHO %$INDENT%#define MINETESTMAPPER_DEBUG_FLAG
 		ECHO %$INDENT%#endif
 	)
+	ENDLOCAL
 	EXIT /B 0
