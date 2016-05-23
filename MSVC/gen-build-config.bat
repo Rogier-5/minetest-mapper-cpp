@@ -24,19 +24,19 @@ GOTO START
 :USAGE
 ECHO Usage: %~nx0 [options] -p PROJECTDIR
 ECHO.
-ECHO Options:
-ECHO	-h^|--help		: Print this message
-ECHO	-v^|--verbose		: Print minetestmapper version info
-ECHO	--test			: Instead of creating the configuration files,
+ECHO Options^:
+ECHO	-h^|--help		^: Print this message
+ECHO	-v^|--verbose		^: Print minetestmapper version info
+ECHO	--test			^: Instead of creating the configuration files,
 ECHO				  print their would-be contents to the console.
-ECHO	--use-sqlite3		: Make minetestmapper understand SQLite3
-ECHO	--use-postgresql	: Make minetestmapper understand PostgreSQL
-ECHO	--use-leveldb		: Make minetestmapper understand LevelDB
-ECHO	--use-redis		: Make minetestmapper understand Redis
-ECHO	-p PROJECTDIR		: Specify the base directory of the project
-ECHO				  (this option is mandatory)
+ECHO	--use-sqlite3		^: Make minetestmapper understand SQLite3
+ECHO	--use-postgresql	^: Make minetestmapper understand PostgreSQL
+ECHO	--use-leveldb		^: Make minetestmapper understand LevelDB
+ECHO	--use-redis		^: Make minetestmapper understand Redis
+ECHO	-p PROJECTDIR		^: Specify the base directory of the project
+ECHO				  ^(this option is mandatory^)
 ECHO.
-ECHO NOTE: At least one of the databases must be enabled.
+ECHO NOTE^: At least one of the databases must be enabled.
 EXIT /B 0
 
 :START
@@ -64,37 +64,37 @@ SET $TEST=0
 
 :: Command-line argument parsing
 :PARSEARGS
-	set OPT="%~1"
-	IF /I "%OPT%"=="-h" (
+	SET $OPT="%~1"
+	IF /I "%$OPT%"=="-h" (
 		CALL :USAGE
 		EXIT /B 0
-	) ELSE IF /I "%OPT%"=="--help" (
+	) ELSE IF /I "%$OPT%"=="--help" (
 		CALL :USAGE
 		EXIT /B 0
-	) ELSE IF /I "%OPT%"=="-v" (
+	) ELSE IF /I "%$OPT%"=="-v" (
 		SET $VERBOSE=1
-	) ELSE IF /I "%OPT%"=="--verbose" (
+	) ELSE IF /I "%$OPT%"=="--verbose" (
 		SET $VERBOSE=1
-	) ELSE IF /I "%OPT%"=="--test" (
+	) ELSE IF /I "%$OPT%"=="--test" (
 		SET $TEST=1
-	) ELSE IF /I "%OPT%"=="--use-sqlite3" (
+	) ELSE IF /I "%$OPT%"=="--use-sqlite3" (
 		SET $USE_SQLITE3=1
 		SET $USE_ANY=1
-	) ELSE IF /I "%OPT%"=="--use-postgresql" (
+	) ELSE IF /I "%$OPT%"=="--use-postgresql" (
 		SET $USE_POSTGRESQL=1
 		SET $USE_ANY=1
-	) ELSE IF /I "%OPT%"=="--use-leveldb" (
+	) ELSE IF /I "%$OPT%"=="--use-leveldb" (
 		SET $USE_LEVELDB=1
 		SET $USE_ANY=1
-	) ELSE IF /I "%OPT%"=="--use-redis" (
+	) ELSE IF /I "%$OPT%"=="--use-redis" (
 		SET $USE_REDIS=1
 		SET $USE_ANY=1
-	) ELSE IF /I "%OPT%"=="-p" (
+	) ELSE IF /I "%$OPT%"=="-p" (
 		SET $PROJECTDIR=%~f2
 		:: SHIFT because we took a second argument here.
 		SHIFT
-	) ELSE IF /I "%OPT:~0,1%"=="-" (
-		ECHO %$MYNAME%: Error: unrecognised option: %OPT%
+	) ELSE IF /I "%$OPT:~0,1%"=="-" (
+		ECHO %$MYNAME%: Error: unrecognised option: %$OPT%
 		CALL :USAGE
 		EXIT /B 1
 	) ELSE (
