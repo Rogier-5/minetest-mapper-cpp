@@ -123,7 +123,7 @@ IF %$PROJECTDIR% =="" (
 )
 
 CALL :CHECK_FOR_GIT
-IF ERRORLEVEL==1 (
+IF ERRORLEVEL 1 (
 	CALL :GET_NONGIT_VERSION
 ) ELSE (
 	CALL :GET_GIT_VERSION
@@ -151,18 +151,18 @@ EXIT /B %ERRORLEVEL%
 :GET_GIT_VERSION
 
 	FOR /F "usebackq tokens=*" %%V IN (`git describe --long "--match=[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]" "--dirty=-WIP" "--abbrev=8"`) DO (
-		SET $FULL_VERSION=%%V
+		SET $VERSION_FULL=%%V
 	)
-	FOR /F "tokens=1 delims=-" %%M in ("%$FULL_VERSION%") DO (
+	FOR /F "tokens=1 delims=-" %%M in ("%$VERSION_FULL%") DO (
 		SET $VERSION_MAJOR=%%M
 	)
-	FOR /F "tokens=2 delims=-" %%M in ("%$FULL_VERSION%") DO (
+	FOR /F "tokens=2 delims=-" %%M in ("%$VERSION_FULL%") DO (
 		SET $MINOR_VERSION_COMMITS=%%M
 	)
-	FOR /F "tokens=3 delims=-" %%M in ("%$FULL_VERSION%") DO (
+	FOR /F "tokens=3 delims=-" %%M in ("%$VERSION_FULL%") DO (
 		SET $MINOR_VERSION_SHA1=%%M
 	)
-	FOR /F "tokens=4 delims=-" %%M in ("%$FULL_VERSION%") DO (
+	FOR /F "tokens=4 delims=-" %%M in ("%$VERSION_FULL%") DO (
 		SET $MINOR_VERSION_WIP=%%M
 	)	
 	SET $VERSION_MINOR=%$MINOR_VERSION_COMMITS%-%$MINOR_VERSION_SHA1%-%$MINOR_VERSION_WIP%
@@ -207,9 +207,7 @@ ECHO Compute nongit version
 	IF /I "%$MINOR_VERSION_COMMITS%" =="X" (
 		SET /A $MIV4=0
 	) ELSE (
-		SET $TMP =
 		SET /A $MIV4=0x%$MINOR_VERSION_SHA1:~1,4%
-
 	)
 	SET $VERSION_BINARY=0,%$MAJOR_VERSION:~2,6%,%$MIV3%,%$MIV4%
 	EXIT /B 0

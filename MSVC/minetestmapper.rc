@@ -57,7 +57,7 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "FileDescription", "Generates maps of minetest and freeminer worlds "
-            VALUE "FileVersion", MINETESTMAPPER_VERSION_FULL
+            VALUE "FileVersion", MINETESTMAPPER_VERSION_BINARY
             VALUE "InternalName", "minetestmapper.exe"
             VALUE "LegalCopyright", "LGPLv2.1+/ BSD 2-clause license"
             VALUE "OriginalFilename", "minetestmapper.exe"
