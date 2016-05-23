@@ -521,6 +521,12 @@ include(CPack)
 # DO this near the end - to make sure all variables have been computed
 # and are final.
 set(INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX})
+set(BUILD_CONFIG_GENTOOL CMake)
+# CMake does not have a date format specifier for timezone...
+execute_process(COMMAND date -R RESULT_VARIABLE DATE_EXITVAL OUTPUT_VARIABLE BUILD_CONFIG_GENDATE ERROR_FILE /dev/null OUTPUT_STRIP_TRAILING_WHITESPACE)
+if(DATE_EXITVAL)
+	message(FATAL_ERROR "Failed to run command 'date -R'")
+endif(DATE_EXITVAL)
 configure_file(
 	"${PROJECT_SOURCE_DIR}/build_config.h.in"
 	"${PROJECT_BINARY_DIR}/build_config.h"

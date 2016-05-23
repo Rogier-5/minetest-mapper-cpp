@@ -2,6 +2,8 @@
 // will be overwritten.
 //
 // Modify the file build_config.h.in instead.
+//
+// This file was generated on @BUILD_CONFIG_GENDATE@ by @BUILD_CONFIG_GENTOOL@
 
 #ifndef BUILD_CONFIG_H
 #define BUILD_CONFIG_H
