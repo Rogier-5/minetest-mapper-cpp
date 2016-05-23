@@ -22,7 +22,7 @@ GOTO START
 
 
 :USAGE
-ECHO Usage: %~nx0 [options] -p PROJECTDIR
+ECHO Usage^: %~nx0 [options] -p PROJECTDIR
 ECHO.
 ECHO Options^:
 ECHO	-h^|--help		^: Print this message
@@ -94,7 +94,7 @@ SET $TEST=0
 		:: SHIFT because we took a second argument here.
 		SHIFT
 	) ELSE IF /I "%$OPT:~0,1%"=="-" (
-		ECHO %$MYNAME%: Error: unrecognised option: %$OPT%
+		ECHO %$MYNAME%^: Error^: unrecognised option^: %$OPT%
 		CALL :USAGE
 		EXIT /B 1
 	) ELSE (
@@ -105,17 +105,17 @@ SET $TEST=0
 
 :GEN_CONFIG
 IF NOT "%1"=="" (
-	ECHO %$MYNAME%: Error: too many arguments (%*)
+	ECHO %$MYNAME%^: Error^: too many arguments ^(%*^)
 	CALL :USAGE
 	EXIT /B 1
 )
 IF NOT %$USE_ANY%==1 (
-	ECHO %$MYNAME%: Error: at least one --use-^<database^> option must be given
+	ECHO %$MYNAME%^: Error^: at least one --use-^<database^> option must be given
 	CALL :USAGE
 	EXIT /B 1
 )
 IF "%$PROJECTDIR%"=="" (
-	ECHO %$MYNAME%: Error: PROJECTDIR argument is required
+	ECHO %$MYNAME%^: Error^: PROJECTDIR argument is required
 	CALL :USAGE
 	EXIT /B 1
 )
@@ -303,7 +303,7 @@ EXIT /B %$EXITVAL%
 	)
 	> %$OUTPUT% (
 		ECHO %$INDENT%// This file is auto-generated. Any changes to it will be overwritten.
-		ECHO %$INDENT%// Modify the following build-system specific script instead:
+		ECHO %$INDENT%// Modify the following build-system specific script instead^:
 		ECHO %$INDENT%//	MSVC/generate_build_config.bat
 		ECHO.
 		ECHO %$INDENT%#define MINETESTMAPPER_VERSION_FULL "%$VERSION_FULL%"
