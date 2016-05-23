@@ -1,6 +1,6 @@
 #include "db-sqlite3.h"
 #include <stdexcept>
-#include <unistd.h> // for usleep
+#include "porting.h"
 #include "types.h"
 
 #define BLOCKPOSLIST_STATEMENT	"SELECT pos, rowid FROM blocks"
@@ -58,7 +58,7 @@ const DB::BlockPosList &DBSQLite3::getBlockPosList() {
 			sqlite3_int64 rowid = sqlite3_column_int64(m_blockPosListStatement, 1);
 			m_BlockPosList.push_back(BlockPos(blocknum, rowid));
 		} else if (result == SQLITE_BUSY) // Wait some time and try again
-			usleep(10000);
+			sleepMs(10);
 		else
 			break;
 	}
@@ -94,7 +94,7 @@ DB::Block DBSQLite3::getBlockOnPos(const BlockPos &pos)
 			m_blocksReadCount++;
 			break;
 		} else if (result == SQLITE_BUSY) { // Wait some time and try again
-			usleep(10000);
+			sleepMs(10);
 		} else {
 			break;
 		}
