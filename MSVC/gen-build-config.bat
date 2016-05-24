@@ -256,13 +256,16 @@ EXIT /B %$EXITVAL%
 	IF %$VERBOSE%==1 (
 		ECHO ---- Generating %$PROJECTDIR%\%$BUILDCONFIG_FILE%
 	)
-	SET $OUTPUT=%$PROJECTDIR%\%$BUILDCONFIG_TEMPLATE%
+	SET $OUTPUT=%$PROJECTDIR%\%$BUILDCONFIG_FILE%
 	IF %$TEST%==1 (
 		ECHO The build config file ^(%$BUILDCONFIG_FILE%^) contents would be^:
 		CALL SET "$INDENT=    "
 		SET $OUTPUT=CON
+	) ELSE (
+		:: If not in testmode, delete the file, because its regenerated
+		COPY NUL "%$OUTPUT%" >NUL
 	)
-	COPY NUL %$OUTPUT%
+	
 	FOR /F "tokens=*" %%L in (%$PROJECTDIR%\%$BUILDCONFIG_TEMPLATE%) DO CALL :WRITE_LINE %%L
 	EXIT /B 0
 
