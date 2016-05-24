@@ -64,7 +64,7 @@ SET $TEST=0
 
 :: Command-line argument parsing
 :PARSEARGS
-	SET $OPT="%~1"
+	SET $OPT=%~1
 	IF /I "%$OPT%"=="-h" (
 		CALL :USAGE
 		EXIT /B 0
