@@ -248,7 +248,7 @@ EXIT /B %$EXITVAL%
 	
 :: Create the build file
 :WRITE_BUILDCONFIG
-	CALL SET "$INDENT="
+	SET "$INDENT="
 	IF NOT EXIST %$PROJECTDIR%\%$BUILDCONFIG_TEMPLATE% (
 		ECHO %$MYNAME%^: Error^: template file ^(%$PROJECTDIR%\%$BUILDCONFIG_TEMPLATE%^) not found.
 		EXIT /B 2
@@ -259,13 +259,12 @@ EXIT /B %$EXITVAL%
 	SET $OUTPUT=%$PROJECTDIR%\%$BUILDCONFIG_FILE%
 	IF %$TEST%==1 (
 		ECHO The build config file ^(%$BUILDCONFIG_FILE%^) contents would be^:
-		CALL SET "$INDENT=    "
+		SET "$INDENT=    "
 		SET $OUTPUT=CON
 	) ELSE (
 		:: If not in testmode, delete the file, because its regenerated
 		COPY NUL "%$OUTPUT%" >NUL
 	)
-	
 	FOR /F "tokens=*" %%L in (%$PROJECTDIR%\%$BUILDCONFIG_TEMPLATE%) DO CALL :WRITE_LINE %%L
 	EXIT /B 0
 
@@ -294,14 +293,14 @@ EXIT /B %$EXITVAL%
 :: Create the versioninfo file
 :WRITE_VERSIONINFO
 	SETLOCAL
-	CALL SET "$INDENT="
+	SET "$INDENT="
 	IF %$VERBOSE%==1 (
 		ECHO ---- Generating %$PROJECTDIR%\%$VERSIONINFO_FILE%%
 	)
 	SET $OUTPUT=%$PROJECTDIR%\%$VERSIONINFO_FILE%
 	IF %$TEST%==1 (
 		ECHO The versioninfo file ^(%$VERSIONINFO_FILE%^) contents would be^:
-		CALL SET "$INDENT=    "
+		SET "$INDENT=    "
 		SET $OUTPUT=CON
 	)
 	> %$OUTPUT% (
