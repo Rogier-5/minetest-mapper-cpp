@@ -230,20 +230,20 @@ EXIT /B %$EXITVAL%
 		ECHO           No exact version information could be obtained.
 		ECHO.
 	)
-	ECHO Full version^:                     %$VERSION_FULL%
-	ECHO Major version^:                    %$VERSION_MAJOR%
-	ECHO Minor version^:                    %$VERSION_MINOR%
+	ECHO Full version^:                  %$VERSION_FULL%
+	ECHO Major version^:                 %$VERSION_MAJOR%
+	ECHO Minor version^:                 %$VERSION_MINOR%
 	
 	IF /I NOT "%$VERSION_MINOR_COMMITS%"=="X" (
-		ECHO Commits since full version^:       %$VERSION_MINOR_COMMITS%
-		ECHO Latest commit SHA1 id ^(short^)^:  %$VERSION_MINOR_SHA1%
+		ECHO Commits since full version^:    %$VERSION_MINOR_COMMITS%
+		ECHO Latest commit SHA1 id ^(short^)^: %$VERSION_MINOR_SHA1%
 		IF DEFINED $VERSION_MINOR_WIP (
-			ECHO Working tree is clean^:          NO
+			ECHO Working tree is clean^:         NO
 		) ELSE (
-			ECHO Working tree is clean^:          YES
+			ECHO Working tree is clean^:         YES
 		)
 	)
-	ECHO Binary version^:                   %$VERSION_BINARY%
+	ECHO Binary version^:                %$VERSION_BINARY%
 	EXIT /B 0
 	
 :: Create the build file
