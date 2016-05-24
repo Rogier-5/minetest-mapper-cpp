@@ -114,7 +114,7 @@ IF NOT %$USE_ANY%==1 (
 	CALL :USAGE
 	EXIT /B 1
 )
-IF "%$PROJECTDIR%"=="" (
+IF %$PROJECTDIR%=="" (
 	ECHO %$MYNAME%^: Error^: PROJECTDIR argument is required
 	CALL :USAGE
 	EXIT /B 1
