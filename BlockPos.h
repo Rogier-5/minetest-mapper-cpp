@@ -145,8 +145,8 @@ public:
 	NodeCoordHashed(const BlockPos &pos) : NodeCoord(pos) { rehash(); }
 	NodeCoordHashed(const NodeCoord &coord) : NodeCoord(coord) { rehash(); }
 	void rehash(void) { m_hash = NodeCoord::hash(); }
-	unsigned hash(void) { rehash(); return m_hash; }
-	unsigned hash(void) const { return m_hash; }
+	unsigned hash(void) { rehash(); return static_cast<unsigned>(m_hash); }
+	unsigned hash(void) const { return static_cast<unsigned>(m_hash); }
 	bool operator==(const NodeCoordHashed &coord) const { if (m_hash != coord.m_hash) return false; return NodeCoord::operator==(coord); }
 	void operator=(const NodeCoord &coord) { NodeCoord::operator=(coord); rehash(); }
 	bool operator<(const NodeCoordHashed &coord) { return m_hash < coord.m_hash; }

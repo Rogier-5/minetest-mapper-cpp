@@ -31,12 +31,12 @@ with this program; if not, write to the Free Software Foundation, Inc.,
  * It's a lot more complicated than it looks.
  */
 
-static inline int unsigned_to_signed(unsigned i, unsigned max_positive)
+static inline int unsigned_to_signed(int64_t i, unsigned max_positive)
 {
 	if (i < max_positive) {
-		return i;
+		return static_cast<int>(i);
 	} else {
-		return i - (max_positive * 2);
+		return static_cast<int>(i - (max_positive * 2));
 	}
 }
 

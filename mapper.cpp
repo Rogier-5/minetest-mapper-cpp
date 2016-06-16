@@ -497,7 +497,7 @@ static void orderCoordinateDimensions(NodeCoord &coord1, NodeCoord &coord2, int 
 // <x>,<y>@<angle>+<length>
 static bool parseGeometry(istream &is, NodeCoord &coord1, NodeCoord &coord2, NodeCoord &dimensions, bool &legacy, bool &centered, int n, FuzzyBool expectDimensions, int wildcard = 0)
 {
-	int pos;
+	std::streamoff pos;
 	pos = is.tellg();
 	legacy = false;
 
@@ -871,7 +871,7 @@ int main(int argc, char *argv[])
 					break;
 				case OPT_HEIGHTMAPYSCALE:
 					if (isdigit(optarg[0]) || ((optarg[0]=='-' || optarg[0]=='+') && isdigit(optarg[1]))) {
-						float scale = atof(optarg);
+						float scale = static_cast<float>(atof(optarg));
 						generator.setHeightMapYScale(scale);
 					}
 					else {

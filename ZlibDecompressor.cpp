@@ -46,7 +46,7 @@ ustring ZlibDecompressor::decompress()
 	strm.zfree = Z_NULL;
 	strm.opaque = Z_NULL;
 	strm.next_in = Z_NULL;
-	strm.avail_in = size;
+	strm.avail_in = static_cast<uInt>(size);
 
 	if (inflateInit(&strm) != Z_OK) {
 		throw DecompressError(strm.msg);
