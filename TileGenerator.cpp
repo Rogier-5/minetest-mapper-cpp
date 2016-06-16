@@ -2214,8 +2214,8 @@ void TileGenerator::renderHeightScale()
 		Color color = computeMapHeightColor(int(height + 0.5));
 		gdImageLine(m_image, xBorderOffset + x, yBorderOffset + 8, xBorderOffset + x, yBorderOffset + borderBottom() - 20, color.to_libgd());
 
-		int iheight = int(height + (height > 0 ? 0.5 : -0.5));
-		int iheightMaj = int(iheight / major + (height > 0 ? 0.5 : -0.5)) * major;
+		int iheight = static_cast<int>(height + (height > 0 ? 0.5 : -0.5));
+		int iheightMaj = static_cast<int>(trunc(iheight / major + (height > 0 ? 0.5 : -0.5)) * major);
 		if (fabs(height - iheightMaj) <= height_step / 2 && (height - iheightMaj) > -height_step / 2) {
 			if (iheightMaj / int(major) % 2 == 1 && fabs(height) > 9999 && major / height_step < 56) {
 				// Maybe not enough room for the number. Draw a tick mark instead
@@ -2252,8 +2252,8 @@ void TileGenerator::renderPlayers(const std::string &inputPath)
 
 	PlayerAttributes players(inputPath);
 	for (PlayerAttributes::Players::iterator player = players.begin(); player != players.end(); ++player) {
-		int imageX = worldX2ImageX(player->x / 10);
-		int imageY = worldZ2ImageY(player->z / 10);
+		int imageX = worldX2ImageX(static_cast<int>(player->x / 10));
+		int imageY = worldZ2ImageY(static_cast<int>(player->z / 10));
 		std::string displayName = m_gdStringConv->convert(player->name);
 
 		gdImageArc(m_image, imageX, imageY, 5, 5, 0, 360, color);

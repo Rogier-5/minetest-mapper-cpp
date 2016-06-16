@@ -34,15 +34,15 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 static inline int unsigned_to_signed(unsigned i, unsigned max_positive)
 {
 	if (i < max_positive) {
-		return i;
+		return static_cast<int>(i);
 	} else {
-		return i - (max_positive * 2);
+		return static_cast<int>(i - (max_positive * 2));
 	}
 }
 
 
 // Modulo of a negative number does not work consistently in C
-static inline int64_t pythonmodulo(int64_t i, int16_t mod)
+static inline unsigned pythonmodulo(int64_t i, unsigned mod)
 {
 	if (i >= 0) {
 		return i % mod;

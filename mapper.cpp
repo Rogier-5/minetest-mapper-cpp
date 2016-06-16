@@ -49,6 +49,7 @@ using namespace std;
 #define DRAW_ARROW_LENGTH		10
 #define DRAW_ARROW_ANGLE		30
 
+
 // Will be replaced with the actual name and location of the executable (if found)
 string executableName = "minetestmapper";
 string executablePath;			// ONLY for use on windows
@@ -497,7 +498,7 @@ static void orderCoordinateDimensions(NodeCoord &coord1, NodeCoord &coord2, int 
 // <x>,<y>@<angle>+<length>
 static bool parseGeometry(istream &is, NodeCoord &coord1, NodeCoord &coord2, NodeCoord &dimensions, bool &legacy, bool &centered, int n, FuzzyBool expectDimensions, int wildcard = 0)
 {
-	int pos;
+	std::streamoff pos;
 	pos = is.tellg();
 	legacy = false;
 
@@ -871,7 +872,7 @@ int main(int argc, char *argv[])
 					break;
 				case OPT_HEIGHTMAPYSCALE:
 					if (isdigit(optarg[0]) || ((optarg[0]=='-' || optarg[0]=='+') && isdigit(optarg[1]))) {
-						float scale = atof(optarg);
+						float scale = static_cast<float>(atof(optarg));
 						generator.setHeightMapYScale(scale);
 					}
 					else {

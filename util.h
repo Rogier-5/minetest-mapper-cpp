@@ -6,9 +6,9 @@
 
 inline std::string strlower(const std::string &s)
 {
-	int l = s.length();
+	size_t l = s.length();
 	std::string sl = s;
-	for (int i = 0; i < l; i++)
+	for (size_t i = 0; i < l; i++)
 		sl[i] = tolower(sl[i]);
 	return sl;
 }
