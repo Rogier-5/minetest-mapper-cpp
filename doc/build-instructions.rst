@@ -232,14 +232,6 @@ Building Minetestmapper
 
 With everything set up, Minetestmapper can be built.
 
-Building for 64-bit may fail due to a `bug in snappy`__. If this happens,
-the following steps will solve this:
-
-1. Open ``packages\Snappy.1.1.1.7\lib\native\src\snappy.cc``
-2. Change line 955 from ``#ifndef WIN32`` to ``#ifndef _WIN32``
-
-__ https://bitbucket.org/robertvazan/snappy-visual-cpp/issues/1/snappycc-will-not-compile-on-windows-x64
-
 Debugging Minetestmapper
 ........................
 
