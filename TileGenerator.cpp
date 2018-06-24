@@ -1623,7 +1623,10 @@ void TileGenerator::processMapBlock(const DB::Block &block)
 	//uint8_t flags = readU8(data, 1, length);
 
 	size_t dataOffset = 0;
-	if (version >= 22) {
+	if (version >= 27) {
+		dataOffset = 6;
+	}
+	else if (version >= 22) {
 		dataOffset = 4;
 	}
 	else {

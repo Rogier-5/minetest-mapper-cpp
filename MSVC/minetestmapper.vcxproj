@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Crc32C.1.1.0\build\native\Crc32C.props" Condition="Exists('..\packages\Crc32C.1.1.0\build\native\Crc32C.props')" />
   <Import Project="..\packages\LevelDB.1.16.0.5\build\native\LevelDB.props" Condition="Exists('..\packages\LevelDB.1.16.0.5\build\native\LevelDB.props')" />
   <Import Project="..\packages\Snappy.1.1.1.7\build\native\Snappy.props" Condition="Exists('..\packages\Snappy.1.1.1.7\build\native\Snappy.props')" />
-  <Import Project="..\packages\Crc32C.1.0.4\build\native\Crc32C.props" Condition="Exists('..\packages\Crc32C.1.0.4\build\native\Crc32C.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -131,7 +131,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\libs\gd\include;$(ProjectDir)dirent\include;$(ProjectDir)wingetopt\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Users\Doll\Documents\Projects\libgd\src;$(ProjectDir)dirent\include;$(ProjectDir)wingetopt\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,6 +139,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>libgd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Users\Doll\Documents\Projects\Build-libgd32\Bin\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
       <Command>CALL $(SolutionDir)MSVC\gen-build-config.bat --use-sqlite3 --use-leveldb -p "$(SolutionDir)"</Command>
@@ -153,7 +154,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\libs\gd\include;$(ProjectDir)dirent\include;$(ProjectDir)wingetopt\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Users\Doll\Documents\Projects\libgd\src;D:\libs\gd\include;$(ProjectDir)dirent\include;$(ProjectDir)wingetopt\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -161,6 +162,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>libgd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Users\Doll\Documents\Projects\Build-libgd2\Bin\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
       <Command>CALL $(SolutionDir)MSVC\gen-build-config.bat --use-sqlite3 --use-leveldb -p "$(SolutionDir)"</Command>
@@ -209,9 +211,9 @@
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\zlib.v120.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\zlib.v120.windesktop.msvcstl.dyn.rt-dyn.targets" Condition="Exists('..\packages\zlib.v120.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\zlib.v120.windesktop.msvcstl.dyn.rt-dyn.targets')" />
     <Import Project="..\packages\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.targets" Condition="Exists('..\packages\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.targets')" />
-    <Import Project="..\packages\sqlite.redist.3.8.4.2\build\native\sqlite.redist.targets" Condition="Exists('..\packages\sqlite.redist.3.8.4.2\build\native\sqlite.redist.targets')" />
-    <Import Project="..\packages\sqlite.3.8.4.2\build\native\sqlite.targets" Condition="Exists('..\packages\sqlite.3.8.4.2\build\native\sqlite.targets')" />
-    <Import Project="..\packages\libpng.redist.1.6.20.1\build\native\libpng.redist.targets" Condition="Exists('..\packages\libpng.redist.1.6.20.1\build\native\libpng.redist.targets')" />
+    <Import Project="..\packages\libpng.redist.1.6.28.1\build\native\libpng.redist.targets" Condition="Exists('..\packages\libpng.redist.1.6.28.1\build\native\libpng.redist.targets')" />
+    <Import Project="..\packages\libpng.1.6.28.1\build\native\libpng.targets" Condition="Exists('..\packages\libpng.1.6.28.1\build\native\libpng.targets')" />
+    <Import Project="..\packages\unofficial-flayan-sqlite.3.17.0\build\native\unofficial-flayan-sqlite.targets" Condition="Exists('..\packages\unofficial-flayan-sqlite.3.17.0\build\native\unofficial-flayan-sqlite.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -219,11 +221,11 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\zlib.v120.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\zlib.v120.windesktop.msvcstl.dyn.rt-dyn.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\zlib.v120.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\zlib.v120.windesktop.msvcstl.dyn.rt-dyn.targets'))" />
     <Error Condition="!Exists('..\packages\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.targets'))" />
-    <Error Condition="!Exists('..\packages\sqlite.redist.3.8.4.2\build\native\sqlite.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sqlite.redist.3.8.4.2\build\native\sqlite.redist.targets'))" />
-    <Error Condition="!Exists('..\packages\sqlite.3.8.4.2\build\native\sqlite.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sqlite.3.8.4.2\build\native\sqlite.targets'))" />
-    <Error Condition="!Exists('..\packages\Crc32C.1.0.4\build\native\Crc32C.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Crc32C.1.0.4\build\native\Crc32C.props'))" />
+    <Error Condition="!Exists('..\packages\libpng.redist.1.6.28.1\build\native\libpng.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\libpng.redist.1.6.28.1\build\native\libpng.redist.targets'))" />
+    <Error Condition="!Exists('..\packages\libpng.1.6.28.1\build\native\libpng.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\libpng.1.6.28.1\build\native\libpng.targets'))" />
     <Error Condition="!Exists('..\packages\Snappy.1.1.1.7\build\native\Snappy.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Snappy.1.1.1.7\build\native\Snappy.props'))" />
     <Error Condition="!Exists('..\packages\LevelDB.1.16.0.5\build\native\LevelDB.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\LevelDB.1.16.0.5\build\native\LevelDB.props'))" />
-    <Error Condition="!Exists('..\packages\libpng.redist.1.6.20.1\build\native\libpng.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\libpng.redist.1.6.20.1\build\native\libpng.redist.targets'))" />
+    <Error Condition="!Exists('..\packages\Crc32C.1.1.0\build\native\Crc32C.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Crc32C.1.1.0\build\native\Crc32C.props'))" />
+    <Error Condition="!Exists('..\packages\unofficial-flayan-sqlite.3.17.0\build\native\unofficial-flayan-sqlite.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\unofficial-flayan-sqlite.3.17.0\build\native\unofficial-flayan-sqlite.targets'))" />
   </Target>
 </Project>

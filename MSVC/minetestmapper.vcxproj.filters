@@ -100,15 +100,6 @@
     <ClCompile Include="..\ZlibDecompressor.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\leveldb-single-file.cpp">
-      <Filter>Source files</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\snappy-single-file.cpp">
-      <Filter>Source files</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\crc32c.cpp">
-      <Filter>Source files</Filter>
-    </ClCompile>
     <ClCompile Include="wingetopt\src\getopt.c">
       <Filter>Source files</Filter>
     </ClCompile>
@@ -116,6 +107,15 @@
       <Filter>Source files</Filter>
     </ClCompile>
     <ClCompile Include="..\CharEncodingConverter.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\crc32c.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\leveldb-single-file.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\snappy-single-file.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
   </ItemGroup>
